@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- declaro que mi app necesita conectarse a internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppJAR">
+        <activity
+            android:name=".BienvenidaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".InflarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SportsNewsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BlackGameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SubColorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FormularioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SpinnerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CompartirTextoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="true"
+            android:label="WEB ADF">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="adf-formacion.es"
+                    android:scheme="http" />
+                <data
+                    android:host="adf-formacion.es"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".BusquedaActivity"
+            android:exported="false"
+            android:label="Búsqueda en Google" />
+        <activity
+            android:name=".SumaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainMenuActivity"
+            android:exported="true">
+            <intent-filter>
+
+                <!-- con estas estiquetas, Android sabe que ésta es mi Actividad Principal (pantalla inicio) -->
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CuadrosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdivinaNumeroActivity"
+            android:exported="true"
+            android:label="Juego Adivina" />
+        <activity
+            android:name=".ImagenIMCActivity"
+            android:exported="false"
+            android:label="Cálculo IMC" />
+        <activity
+            android:name=".ImcActivity"
+            android:exported="true"
+            android:label="Cálculo IMC">
+
+            <!-- INICIO con estas estiquetas, Android sabe que ésta es mi Actividad Principal (pantalla inicio) -->
+            <!--
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+            <!-- FIN con estas estiquetas, Android sabe que ésta es mi Actividad Principal (pantalla inicio) -->
+        </activity>
+        <activity
+            android:name=".VersionesActivity"
+            android:exported="true">
+
+            <!-- esto es un comentario en XML / HTML -->
+            <!--
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+    </application>
+
+</manifest>
