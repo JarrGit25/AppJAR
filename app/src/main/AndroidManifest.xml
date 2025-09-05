@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- declaro que mi app necesita conectarse a internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- PARA ACCEDER AL ESTADO DE LA RED -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppJAR">
+        <activity
+            android:name=".productos.ListaProductosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".lista.ListaUsuariosActivity"
+            android:exported="false" />
         <activity
             android:name=".BienvenidaActivity"
             android:exported="false" />
