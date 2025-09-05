@@ -45,22 +45,28 @@ class ListaProductosActivity : AppCompatActivity() {
 
         val productoService = retrofit.create(ProductoService::class.java)
 
-        if(RedUtil.hayInternet(context=this)){
+        if(RedUtil.hayInternet(context=this)) {
             //el bloque dentro de este metodo se ejecuta en segundo plano
             //y si la actividad se cierra, el proceso también se cierra
+            Log.d(Constantes.TAG_LOG, "LANZNADO PETICIÓN HTTP 0")
             lifecycleScope.launch {
                 // aqui ya tenemos la lista de productos
+                Log.d(Constantes.TAG_LOG, "LANZNADO PETICIÓN HTTP 1")
                 listaProductos = productoService.obtenerProductos()
-
+                Log.d(Constantes.TAG_LOG, "RESPUESTA RX")
                 // ahora es tiempo de recorrerla
                 listaProductos.forEach { Log.d(Constantes.TAG_LOG, it.toString()) }
+                //TODO HACER UN RECYCLER PARA MOSTRAR LA LISTA DE PRODUCTOS
             }
-            else{
+        } else
+        {
                 // no hay conexion a Internet tipo Modo avion o sin datos
-                val noti = Toast.makeText(this,text="Sin conexión a Internet",)
+                val noti = Toast.makeText(this,"Sin conexión a Internet",Toast.LENGTH_LONG)
+                noti.show()
             }
+            Log.d(Constantes.TAG_LOG, "LANZNADO PETICIÓN HTTP 2")
+
 
         }
 
     }
-}
