@@ -7,4 +7,48 @@
     android:layout_height="match_parent"
     tools:context=".productos.ListaProductosActivity">
 
+    <LinearLayout
+        android:id="@+id/cabeceraListado"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="128dp"
+        android:background="@color/miactionbarcolor"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_weight="40"
+            android:text="ID"
+            style="@style/EstiloCabaceraLista"
+            />
+
+        <TextView
+            android:layout_weight="15"
+            android:text="NOMBRE"
+            style="@style/EstiloCabaceraLista"
+            />
+
+        <TextView
+            android:layout_weight="15"
+            android:text="PRECIO"
+            style="@style/EstiloCabaceraLista" />
+
+        <TextView
+            android:layout_weight="20"
+            android:text="IMAGEN"
+            style="@style/EstiloCabaceraLista" />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recViewProductos"
+        android:layout_width="match_parent"
+        android:layout_height="245dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cabeceraListado" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
