@@ -2,6 +2,7 @@ package com.curso.AppJAR.productos
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,8 @@ import com.curso.AppJAR.util.RedUtil
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.roundToInt
+import kotlin.system.measureNanoTime
 
 
 class ListaProductosActivity : AppCompatActivity() {
@@ -66,10 +69,17 @@ class ListaProductosActivity : AppCompatActivity() {
 
                 listaProductos = productoService.obtenerProductos()
                 Log.d(Constantes.TAG_LOG, "RESPUESTA RX")
+
+                //ocultar progress bar y la vaciamos del XML con GONE
+                this@ListaProductosActivity.binding.barraProgreso.visibility= View.GONE
+
                 // ahora es tiempo de recorrerla
                 listaProductos.forEach { Log.d(Constantes.TAG_LOG, it.toString()) }
 
                 mostrarListaProductos(listaProductos)
+
+                dibujarSlider()
+
                 //HACER UN RECYCLER PARA MOSTRAR LA LISTA DE PRODUCTOS
                 /*
                 PASOS PARA CREAR UN RECYCLERVIEW (MOSTRAR UNA COLECCIÓN/LISTA/TABLA)
@@ -96,6 +106,65 @@ class ListaProductosActivity : AppCompatActivity() {
 
 
         }
+
+    private fun dibujarSlider(){
+        // pone el Slider visible
+        this.binding.sliderPrecio.visibility = View.VISIBLE
+
+        //obtengo de la lista el producto mas caro
+        // previamente convirtiendo a float porque viene como string
+        val productoMasCaro = this.listaProductos.maxBy { p : ListaProductosItem -> p.price.toFloat() }
+
+        //obtengo de la lista el producto mas economico
+        val productoMasEconomico = this.listaProductos.minBy { p : ListaProductosItem -> p.price.toFloat() }
+
+        //obtengo de la lista el precio medio de los productos
+        // nos quedamos con los precios en la lista y luego calculo la media
+        var precioMedio:Double = 0.0
+        val tlambdas =  measureNanoTime {
+            precioMedio = this.listaProductos.map { p->p.price.toFloat() }.average()
+        }
+
+        var tforClasico = measureNanoTime {
+            var sumaPrecio:Float = 0f
+            for (p in listaProductos.indices)
+            {
+                sumaPrecio = sumaPrecio + listaProductos[p].price.toFloat()
+            }
+            val media = sumaPrecio/listaProductos.size
+
+        }
+        Log.d(Constantes.TAG_LOG, "Tiempo lambdas ${tlambdas} vs Tiempo clásico ${tforClasico}")
+
+        this.binding.precioMasBarato.text = productoMasEconomico.price
+        this.binding.precioMasCaro.text = productoMasCaro.price
+        this.binding.precioMedio.text = precioMedio.toString()
+
+
+        // inicia el Slider
+        this.binding.sliderPrecio.visibility = View.VISIBLE
+        //El valor minimo hasta donde iria el Slider
+        this.binding.sliderPrecio.valueFrom = productoMasEconomico.price.toFloat()
+        // El valor maximo hasta donde iria el Slider
+        this.binding.sliderPrecio.valueTo = productoMasCaro.price.toFloat()
+        //donde aparece la barra
+        this.binding.sliderPrecio.value = productoMasCaro.price.toFloat()
+
+        // le da un formato
+        this.binding.sliderPrecio.setLabelFormatter{ "${it.roundToInt()} precio máx" }
+
+        // creamos el listener del Slider al cambiar
+        this.binding.sliderPrecio.addOnChangeListener { slider, value, fromUser ->
+
+            Log.d(Constantes.TAG_LOG, "Valor actual ${value} del usuario ${fromUser}")
+            var listaProductosFiltrados = ListaProductos()
+            this.listaProductos.filter { producto -> if (producto.price.toFloat()<=value) {true} else {false} }.toCollection(listaProductosFiltrados)
+            this.productosAdapter.listaProductos = listaProductosFiltrados
+            this.productosAdapter.notifyDataSetChanged()//"Emite una señal y RecyclerView se repinta"
+        }
+
+
+    }
 
     private fun mostrarListaProductos(listaProductos: ListaProductos) {
         //6) INstanciando el adapter pasando la lista

@@ -9,4 +9,5 @@
     </style>
 
     <style name="Theme.AppJAR" parent="Base.Theme.AppJAR" />
+    <style name="Theme.AppJAR.SinBarra" parent="Theme.Material3.DayNight.NoActionBar" />
 </resources>

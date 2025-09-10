@@ -15,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppJAR">
+
+        <!-- Para la primera actividad quitamos la barra -->
+        <!-- que es el tema que hemos definido Sin Barra-->
         <activity
+            android:theme="@style/Theme.AppJAR.SinBarra"
             android:name=".productos.ListaProductosActivity"
             android:exported="false" />
         <activity
