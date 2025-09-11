@@ -9,6 +9,7 @@ import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.curso.AppJAR.lista.ListaUsuariosActivity
+import com.curso.AppJAR.perros.PerrosActivity
 import com.curso.AppJAR.productos.ListaProductosActivity
 import com.google.android.material.navigation.NavigationView
 
@@ -172,6 +173,11 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             16 -> {
                 Log.d(Constantes.TAG_LOG,"Navegar hacia item $item.order")
                 val intent:Intent = Intent(this, ListaProductosActivity::class.java)
+                startActivity(intent)
+            }
+            17 -> {
+                Log.d(Constantes.TAG_LOG,"Navegar hacia item $item.order")
+                val intent:Intent = Intent(this, PerrosActivity::class.java)
                 startActivity(intent)
             }
 

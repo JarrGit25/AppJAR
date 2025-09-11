@@ -100,6 +100,12 @@
             android:orderInCategory="16"
             android:title="LISTA PRODUCTOS"
             />
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="17"
+            android:title="PERROS"
+            />
     </menu>
 </item>
     <item android:title="EJERCICIOS AVANZADOS">
