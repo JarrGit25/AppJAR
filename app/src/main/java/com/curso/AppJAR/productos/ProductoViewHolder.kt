@@ -1,37 +1,30 @@
 package com.curso.AppJAR.productos
 
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.curso.AppJAR.R
+import com.curso.AppJAR.databinding.FilaProductoBinding
 
 /**
  * Esta clase representa el hueco /fila que se recicla y cuyo contenido se actualiza
  * con la información del usuario que toque
  */
-class ProductoViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView)  {
-    //definimos un atributo para ligarlo a cada columna de la fila
+class ProductoViewHolder(val filaProducto: FilaProductoBinding): RecyclerView.ViewHolder(filaProducto.root) {
 
-    val tvId: TextView = itemView.findViewById<TextView>(R.id.id)
-    val tvname: TextView = itemView.findViewById<TextView>(R.id.name)
-    val tvPrice: TextView = itemView.findViewById<TextView>(R.id.price)
-    val imvImg: ImageView = itemView.findViewById<ImageView>(R.id.imageUrl)
+    val RUTA_FOTO_CHESPIRITO = "https://www.eluniverso.com/resizer/v2/3ZSP5WZAZZG55EX27CJCWUZCDM.jpg?auth=fa020d3b068d8fc1549073ebb5d0d360d1aee522d99a7ae6cc9f692c370be9da&width=622&height=670&quality=75&smart=true"
 
     /**
      * Cargamos la información del usuario en su contenedor
      * @param el usuario corriente/actual
      */
-    fun rellenarFilaProducto (producto: ListaProductosItem)
+    fun rellenarFilaProducto(producto: Producto)
     {
-        this.tvId.text = producto.id.toString()
-        this.tvname.text = producto.name
-        this.tvPrice.text = producto.price.toString()
-        // poner la imagen
-        Glide.with(this.itemView.context)
-            .load(producto.imageUrl.toUri())
-            .into(imvImg)
+        this.filaProducto.idProducto.text = producto.id.toString()
+        this.filaProducto.nombreProducto.text = producto.name
+        this.filaProducto.precioProducto.text = producto.price
+        Glide.with(itemView.context)
+            .load(RUTA_FOTO_CHESPIRITO.toUri())
+            .into(this.filaProducto.imagenProducto)
     }
+
 }

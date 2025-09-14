@@ -28,13 +28,16 @@ class ListaUsuariosActivity : AppCompatActivity() {
         Usuario("Jorge", 33, 'M', true, R.color.miverde))
 
     lateinit var binding: ActivityListausuariosBinding
+    lateinit var adapter: UsuariosAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.binding = ActivityListausuariosBinding.inflate((layoutInflater))
         setContentView(binding.root)
 
-        this.binding.recViewUsuarios.adapter = UsuariosAdapter(this.listaUsuarios)
+
+        this.adapter = UsuariosAdapter(this.listaUsuarios)
+        this.binding.recViewUsuarios.adapter = this.adapter
         // formato vertical ordenadcion normal empezando por el primer registro
         this.binding.recViewUsuarios.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false  )
         // formato vertical ordenacion inversa empezando por el ultimo registro
@@ -53,15 +56,17 @@ class ListaUsuariosActivity : AppCompatActivity() {
         Log.d(Constantes.TAG_LOG, "EN ORDENAR POR NOMBRE TARDA ${ns} nanosegundos")
 
         //this.listaUsuarios = this.listaUsuarios.sortedByDescending { it.nombre }//de mayor a menor
-        this.binding.recViewUsuarios.adapter = UsuariosAdapter(this.listaUsuarios)
+        this.adapter = UsuariosAdapter(this.listaUsuarios)
+        this.binding.recViewUsuarios.adapter = this.adapter
     }
     fun ordenarPorEdad(view: View) {
         var ns1 = measureNanoTime { this.listaUsuarios = this.listaUsuarios.sortedWith { usuario0, usuario1 -> usuario0.edad - usuario1.edad } }
         var ns2 = measureNanoTime {  this.listaUsuarios = this.listaUsuarios.sortedByDescending { it.edad } }
 
+        this.adapter = UsuariosAdapter(this.listaUsuarios)
         Log.d(Constantes.TAG_LOG, "EN ORDENAR CON WITH TARDA ${ns1} nanosegundos y con BY ${ns2}")
 
-        this.binding.recViewUsuarios.adapter = UsuariosAdapter(this.listaUsuarios)
+        this.binding.recViewUsuarios.adapter = this.adapter
 
     }
 
@@ -75,7 +80,8 @@ class ListaUsuariosActivity : AppCompatActivity() {
                 //.thenByDescending { it.edad }
             )}
         Log.d(Constantes.TAG_LOG, "EN ORDENAR POR NOMBRE y edad TARDA ${ns} nanosegundos")
-        this.binding.recViewUsuarios.adapter = UsuariosAdapter(this.listaUsuarios)
+        this.adapter = UsuariosAdapter(this.listaUsuarios)
+        this.binding.recViewUsuarios.adapter = this.adapter
     }
 
 }
