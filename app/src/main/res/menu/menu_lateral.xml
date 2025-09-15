@@ -106,6 +106,12 @@
             android:orderInCategory="17"
             android:title="PERROS"
             />
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="18"
+            android:title="TABS"
+            />
     </menu>
 </item>
     <item android:title="EJERCICIOS AVANZADOS">

@@ -12,9 +12,11 @@ import com.curso.AppJAR.Constantes
 import com.curso.AppJAR.databinding.ActivityListaProductosBinding
 import com.curso.AppJAR.perros.GaleriaPerrosActivity
 import com.curso.AppJAR.util.RedUtil
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.math.roundToInt
 import kotlin.system.measureNanoTime
 import kotlin.toString
@@ -59,7 +61,7 @@ class ListaProductosActivity : AppCompatActivity() {
             Log.d(Constantes.ETIQUETA_LOG, "Hay internet, vamos a pedir ")
             //val haywifi = RedUtil.hayWifi(this)
             // Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
-            lifecycleScope.launch {
+            lifecycleScope.launch{
                 //this en este función NO es Activity , es la propia corrutina
                 //si necesito acceder al Contexto de la actvidad dentro
                 //de la corrutina, debo usar this@ListaProductosActivity
