@@ -10,6 +10,11 @@ import com.curso.AppJAR.Constantes
 
 class BusquedaCancionesActivity : AppCompatActivity() {
 
+    //artistName
+    //trackName
+    //primaryGenreName
+    //artworkUrl60
+    //previewUrl
     lateinit var binding: ActivityBusquedaCancionesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
