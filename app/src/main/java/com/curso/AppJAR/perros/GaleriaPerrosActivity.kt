@@ -2,6 +2,7 @@ package com.curso.AppJAR.perros
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,13 @@ class GaleriaPerrosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         galeriaPerrosBinding = ActivityGaleriaPerrosBinding.inflate(layoutInflater)
         setContentView(galeriaPerrosBinding.root)
+
+        // dibuja el control de la flecha hacia atrás en la cabecera
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //cuando tocamos cualquier elemento del APP Bar  va por onOptionsItemSelected programada abajo
+
+
         //TODO
         /*
          *1 obtener del Intent la info de la raza
@@ -98,9 +106,20 @@ class GaleriaPerrosActivity : AppCompatActivity() {
 
         galeriaPerrosBinding.viewPager2.setPageTransformer(fadeTransformer)
 
-
-
         //galeriaPerrosBinding.viewPager2.setPageTransformer(depthTransformer)
+    }
 
+    // programamos la funcion cuando se selecciona el boton atrás del APP BAR
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId)
+        {
+            // al pulsar la flecha atrás
+            android.R.id.home -> {
+                Log.e(Constantes.ETIQUETA_LOG, "Tocada la flecha atrás del app bar superior")
+                //cierra la actividad
+                finish()
+            }
+        }
+        return true
     }
 }

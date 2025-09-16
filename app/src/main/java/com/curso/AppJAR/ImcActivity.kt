@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -63,6 +64,41 @@ class ImcActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Controlo el boton hacia atrás
+        onBackPressedDispatcher.addCallback{
+            Log.d(Constantes.ETIQUETA_LOG, "Ha tocado el botón hacia atrás 1")
+            haciaAtras()
+        }
+
+    }
+
+    fun haciaAtras ()
+    {
+        // prepara el AlertDialog
+        Log.d(Constantes.TAG_LOG,"El usuario ha pulsado salir")
+        var alerta = AlertDialog.Builder(this)
+            //.setTitle("AVISO")
+            .setTitle((R.string.titulo_dialogo_salir)) // i18n
+            //.setMessage("Desea Salir?")
+            .setMessage((R.string.mensaje_dialogo_salir)) // i18n
+            .setIcon(R.drawable.outline_chevron_forward_24)
+
+            .setPositiveButton(R.string.boton_si){ dialogo, opcion ->
+                Log.d(Constantes.TAG_LOG, "Opción positiva salir =  $opcion")
+                this.finish()
+            }
+            .setNegativeButton(R.string.boton_no){ dialogo: DialogInterface, opcion: Int ->
+                Log.d(Constantes.TAG_LOG, "Opción negativa  =  $opcion")
+                dialogo.dismiss()
+            }
+
+            .setNeutralButton (R.string.boton_neutro){ dialogo: DialogInterface, opcion: Int ->
+                Log.d(Constantes.TAG_LOG, "Opción Neutra  =  $opcion")
+                dialogo.cancel()
+            }
+
+        alerta.show() // Ahora muestra el AlertDialog
     }
 
     //para dibujar un menú en la parte superior de la pantalla hay que

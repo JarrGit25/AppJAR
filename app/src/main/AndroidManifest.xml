@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppJAR">
         <activity
+            android:name=".canciones.BusquedaCancionesActivity"
+            android:exported="false"
+            android:label="Búsqueda de Canciones" />
+        <activity
             android:name=".tabs.TabsActivity"
             android:exported="false" />
         <activity
@@ -23,7 +27,8 @@
             android:exported="false" />
         <activity
             android:name=".perros.PerrosActivity"
-            android:exported="false" /> <!-- Para la primera actividad quitamos la barra -->
+            android:exported="false"
+            android:label="Galería de Perros" /> <!-- Para la primera actividad quitamos la barra -->
         <!-- que es el tema que hemos definido Sin Barra -->
         <activity
             android:name=".productos.ListaProductosActivity"

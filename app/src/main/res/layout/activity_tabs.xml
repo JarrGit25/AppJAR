@@ -46,7 +46,7 @@
     <!-- si quiero formato vertical añado -->
     <!--android:orientation="vertical"-->
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vtp"
+        android:id="@+id/vpt"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="8"
