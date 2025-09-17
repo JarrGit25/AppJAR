@@ -33,7 +33,7 @@ class CancionViewHolder(val filaCancion: FilaCancionBinding): RecyclerView.ViewH
             .load(RUTA_FOTO.toUri())
             .into(this.filaCancion.foto)
 
-        // TODO en el id "escucha" cargar la reproduccion en el reproductor media player
+        // TODO en el id "escucha" cargar la reproduccion en el MEDIA PLAYER
     }
 
 }

@@ -118,6 +118,12 @@
             android:orderInCategory="19"
             android:title="BUSQUEDA CANCIONES"
             />
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="20"
+            android:title="SEL CONTACTO 1"
+            />
     </menu>
 </item>
     <item android:title="EJERCICIOS AVANZADOS">
@@ -125,14 +131,14 @@
             <item
                 android:icon="@drawable/outline_arrow_forward_ios_24"
                 app:showAsAction="always"
-                android:orderInCategory="20"
-                android:title="otros 20"
+                android:orderInCategory="30"
+                android:title="otros 30"
                 />
             <item
                 android:icon="@drawable/outline_arrow_forward_ios_24"
                 app:showAsAction="always"
-                android:orderInCategory="21"
-                android:title="otros 21"
+                android:orderInCategory="31"
+                android:title="otros 31"
                 />
         </menu>
     </item>

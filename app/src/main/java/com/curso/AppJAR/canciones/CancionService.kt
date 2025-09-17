@@ -4,7 +4,8 @@ import retrofit2.http.GET
 
 interface CancionService {
 
-    @GET("/search/")
+    ///search/?media=music&term=jose antonio ramirez roman
+    @GET("/search/?media=music&term=jose antonio ramirez roman")
     //suspend se utiliza para marcar una función como "suspendida",
     // lo que significa que puede ejecutarse de forma asíncrona sin bloquear el hilo principal (como el UI thread).
     //Esta función puede pausar su ejecución y reanudarla más tarde sin bloquear el hilo actual."

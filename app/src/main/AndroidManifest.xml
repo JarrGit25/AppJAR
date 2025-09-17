@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppJAR">
         <activity
+            android:name=".contactos.SeleccionContactoActivity"
+            android:exported="false" />
+        <activity
             android:name=".canciones.BusquedaCancionesActivity"
             android:exported="false"
             android:label="Búsqueda de Canciones" />
