@@ -8,6 +8,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.curso.AppJAR.databinding.ActivityBusquedaCancionesBinding
 import com.curso.AppJAR.Constantes
 
+/*
+PASOS PARA CREAR UN RECYCLERVIEW (MOSTRAR UNA COLECCIÓN/LISTA/TABLA)
+
+-- fase estática/compilación
+1) DEFINIR EL RECYCLERVIEW EN EL XML  hecho.
+2) CREAR EL LAYOUT/FILA ITEM - ASPECTO hecho.
+3) CREAR EL VIEWHOLDER
+4) CREAR EL ADAPTER
+-- fase dinámica/ejecución
+5) OBTENER DATOS (RETROFIT HTTP https://my-json-server.typicode.com/miseon920/json-api/products)
+6) INSTANCIAR EL ADAPTER PASÁNDOLE LOS DATOS DEL PUNTO 5
+7) ASOCIO EL ADAPTER AL RECYCLER
+8) DEFINIMOS UN LAYOUT MANAGER PARA EL RECYCLER
+ */
+
 class BusquedaCancionesActivity : AppCompatActivity() {
 
     //artistName
