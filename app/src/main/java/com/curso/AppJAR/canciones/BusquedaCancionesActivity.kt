@@ -32,6 +32,10 @@ class BusquedaCancionesActivity : AppCompatActivity() {
     //previewUrl
     lateinit var binding: ActivityBusquedaCancionesBinding
 
+    private fun mostrarListaCanciones(cadena: String?): Unit {
+        Log.d(Constantes.ETIQUETA_LOG, "Mostrando Canciones del artista:  $cadena")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.binding = ActivityBusquedaCancionesBinding.inflate(layoutInflater)
@@ -41,6 +45,10 @@ class BusquedaCancionesActivity : AppCompatActivity() {
             androidx.appcompat.widget.SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.d(Constantes.ETIQUETA_LOG, "Buscando $query")
+
+                val textoBusqueda: String = query.toString()
+                mostrarListaCanciones(query.toString())
+
                 return true
             }
 
@@ -57,7 +65,12 @@ class BusquedaCancionesActivity : AppCompatActivity() {
             }
 
         })
+
+
+
     }
+
+
 
     /** override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     menuInflater.inflate(R.menu.menu_canciones, menu)

@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.curso.AppJAR.canciones.BusquedaCancionesActivity
 import com.curso.AppJAR.contactos.SeleccionContactoActivity
+import com.curso.AppJAR.contactos.SeleccionContactoPermisosActivity
 import com.curso.AppJAR.lista.ListaUsuariosActivity
 import com.curso.AppJAR.perros.PerrosActivity
 import com.curso.AppJAR.productos.ListaProductosActivity
@@ -195,6 +196,11 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             20 -> {
                 Log.d(Constantes.TAG_LOG,"Navegar hacia item $item.order")
                 val intent:Intent = Intent(this, SeleccionContactoActivity::class.java)
+                startActivity(intent)
+            }
+            21 -> {
+                Log.d(Constantes.TAG_LOG,"Navegar hacia item $item.order")
+                val intent:Intent = Intent(this, SeleccionContactoPermisosActivity::class.java)
                 startActivity(intent)
             }
 
