@@ -7,16 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".productos.ListaProductosActivity">
 
+    <TextView
+        android:id="@+id/sliderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filtrar en el SLIDER: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/sliderPrecio" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/sliderPrecio"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:visibility="invisible"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sliderLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/sliderLabel"/>
 
     <LinearLayout
         android:id="@+id/linearLayout2"

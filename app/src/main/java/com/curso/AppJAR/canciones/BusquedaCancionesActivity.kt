@@ -2,11 +2,16 @@ package com.curso.AppJAR.canciones
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.widget.SearchView
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.curso.AppJAR.databinding.ActivityBusquedaCancionesBinding
 import com.curso.AppJAR.Constantes
+import com.curso.AppJAR.util.RedUtil
+import kotlinx.coroutines.launch
 
 /*
 PASOS PARA CREAR UN RECYCLERVIEW (MOSTRAR UNA COLECCIÓN/LISTA/TABLA)
@@ -30,10 +35,62 @@ class BusquedaCancionesActivity : AppCompatActivity() {
     //primaryGenreName
     //artworkUrl60
     //previewUrl
+
     lateinit var binding: ActivityBusquedaCancionesBinding
 
-    private fun mostrarListaCanciones(cadena: String?): Unit {
+    lateinit var listaCanciones:  List<Cancion>
+    lateinit var adapter: CancionesAdapter
+
+
+    private fun rellenarListaCanciones(cadena: String?): Unit {
         Log.d(Constantes.ETIQUETA_LOG, "Mostrando Canciones del artista:  $cadena")
+
+        if (RedUtil.hayInternet(this))
+        {
+            //el bloque que va dentro de este métod o, se ejecuta en un segundo plano (proceso a parte)
+            Log.d(Constantes.ETIQUETA_LOG, "Hay internet, vamos a pedir ")
+            //val haywifi = RedUtil.hayWifi(this)
+            // Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
+            lifecycleScope.launch{
+                //this en este función NO es Activity , es la propia corrutina
+                //si necesito acceder al Contexto de la actvidad dentro
+                //de la corrutina, debo usar this@ListaProductosActivity
+                //val haywifi = RedUtil.hayWifi(this@ListaProductosActivity)
+                // Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
+                val cancionService = CancionesRetrofitHelper.getCancionServiceInstance()
+                Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1")
+                try{
+                    //val respuesta = cancionService.obtenerCanciones() // devuelvo RespuestaCanciones
+                    val respuesta = cancionService.obtenerCanciones(term = cadena.toString())
+                    listaCanciones = respuesta.results
+                }catch (ex: Exception){
+                    //sección para caídas
+                    Log.e(Constantes.ETIQUETA_LOG, "ERROR AL CONECTARNOS AL API de ITUNES", ex)
+                    Toast.makeText(this@BusquedaCancionesActivity, "FALLO AL OBTENER LAS CANCIONES", Toast.LENGTH_LONG).show()
+                }
+
+                Log.d(Constantes.ETIQUETA_LOG, "RESPUESTA RX ...")
+                //ocultar progress bar
+                this@BusquedaCancionesActivity.binding.barraProgreso.visibility= View.GONE
+
+                listaCanciones.forEach { Log.d(Constantes.ETIQUETA_LOG, it.toString()) }
+
+                mostrarListaCanciones (listaCanciones)
+            }
+
+        }else
+        {
+            val noti = Toast.makeText(this, "SIN CONEXIÓN A INTERNET", Toast.LENGTH_LONG)
+            noti.show()
+        }
+        Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 2")
+
+    }
+
+    private fun mostrarListaCanciones(listaProductos: List<Cancion>) {
+        this.adapter = CancionesAdapter(listaCanciones)
+        binding.recViewProductos.adapter = this.adapter
+        binding.recViewProductos.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +103,8 @@ class BusquedaCancionesActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.d(Constantes.ETIQUETA_LOG, "Buscando $query")
 
-                val textoBusqueda: String = query.toString()
-                mostrarListaCanciones(query.toString())
+                //val textoBusqueda: String = query.toString()
+                rellenarListaCanciones(query.toString())
 
                 return true
             }
