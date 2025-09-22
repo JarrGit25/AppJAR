@@ -130,6 +130,12 @@
             android:orderInCategory="21"
             android:title="SEL CONT PERMISOS"
             />
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="22"
+            android:title="ACCESO CAMARA"
+            />
     </menu>
 </item>
     <item android:title="EJERCICIOS AVANZADOS">
