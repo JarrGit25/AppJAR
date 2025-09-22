@@ -2,11 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- declaro que mi app necesita conectarse a internet -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- PARA ACCEDER AL ESTADO DE LA RED -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- PERMISO PARA PODER LEER LOS CONTACTOS -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- PARA ACCEDER AL ESTADO DE LA RED -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- PERMISO PARA PODER LEER LOS CONTACTOS -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <!-- PERMISOS PARA ACCEDRR A LA CAMARA DE FOTOS -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- required = true si el dispositivo tiene que tener camara obligatoriamente -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
 
     <application
         android:allowBackup="true"
@@ -18,6 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppJAR">
+        <activity
+            android:name=".foto.FotoActivity"
+            android:exported="false" />
         <activity
             android:name=".contactos.SeleccionContactoPermisosActivity"
             android:exported="false" />
