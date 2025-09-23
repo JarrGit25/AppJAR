@@ -1,13 +1,16 @@
 package com.curso.AppJAR.foto
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
@@ -28,6 +31,18 @@ class FotoActivity : AppCompatActivity() {
     lateinit var binding: ActivityFotoBinding
     // defino una variable global para la URI que necesitaremos varias veces
     lateinit var uriFoto: Uri
+
+    val launcherIntentFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    {
+            resultado ->
+        if (resultado.resultCode== RESULT_OK)
+        {
+            Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,40 +87,68 @@ class FotoActivity : AppCompatActivity() {
 
     private fun lanzarCamara() {
         // 1 creamos un fichero destino para que cree la ruta donde se almacenara el fichero
-        this.uriFoto = crearFicheroDestino()  // devolvara la URI
-        Log.d(Constantes.ETIQUETA_LOG,"URI FOTO = $uriFoto")
-        // 2 lanzo el INTENT
+        val uri = crearFicheroDestino()
+        uri?.let { //si uri es != null
+            this.uriFoto = it
+            Log.d(Constantes.ETIQUETA_LOG, "URI FOTO = ${this.uriFoto}")
+            // creo el INTENT
+            val intentFoto = Intent()
+            intentFoto.setAction(MediaStore.ACTION_IMAGE_CAPTURE)
+            intentFoto.putExtra(MediaStore.EXTRA_OUTPUT, this.uriFoto)
+            launcherIntentFoto.launch(intentFoto)
+        } ?: run {
+            Toast.makeText(this, "NO FUE POSIBLE CREAR EL FICHERO DESTINO", Toast.LENGTH_LONG).show()
+        }
     }
 
-    private fun crearFicheroDestino():Uri {
+    /**
+     * Scoped Storage (Almacenamiento con Ámbito) — Desde Android 11 (versión "R")
+     * "A partir de Android R (Android 11), no podrás acceder al contenido de la carpeta interna compartida (/Android/data/, /Android/obb/) desde este gestor de archivos u otras apps.
+     *
+     * Con Scoped Storage, ninguna app puede acceder libremente al almacenamiento de otras apps o al directorio compartido /Android/data/, incluso aunque antes fuera posible
+     *
+     * Esto dice la teoría. Con navegadores de serie de algunos dispositivos sí se puede acceder
+     *
+     * Programáticamente se puede seguir accediendo y escribiendo sin permisos en el almacenamiento interno compartido
+     * "
+     */
+
+    private fun crearFicheroDestino():Uri? {
+        var rutaUriFoto:Uri? = null
         val fechaActual = Date() // para guardar la fecha
         val momentoActual = SimpleDateFormat("yyyyMMdd_HHmmss").format(fechaActual)
         val nombreFichero = "FOTO_ADF_$momentoActual"
         // creo la ruta donde se va a generar la foto
 
-        // ruta privada de nuestra app solo visible desde Android Studio
-        //val rutaFoto = "${filesDir.path}/$nombreFichero"
+        // prueba 1 ruta privada de nuestra app solo visible desde Android Studio
+        val rutaFoto = "${filesDir.path}/$nombreFichero"
         ///data/user/0/com.curso.AppJAR/files/FOTO_ADF_20250922_123007
 
-        // prueba con ruta privada/publica VISIBLE en el explorador de archivos nativo de Android
+        // prueba 2 con ruta privada/publica VISIBLE en el explorador de archivos nativo de Android
         //val rutaFoto = "${getExternalFilesDir(null)?.path}/$nombreFichero"
         ///storage/emulated/0/Android/data/com.curso.AppJAR/files/FOTO_ADF_20250922_124618
 
-        // prueba con ruta publica total VISIBLE en el explorador de archivos nativo de Android
+        // prueba 3 con ruta publica total VISIBLE en el explorador de archivos nativo de Android
         // con este directamente no se puede porque tira una excepcion
         //val rutaFoto = "${Environment.getExternalStorageDirectory()?.path}/$nombreFichero"
 
-        // prueba con ruta de DESCARGAS se podria pero con permisos especiales
-        val rutaFoto = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero"
+        // prueba 4 con ruta de DESCARGAS se podria pero con permisos especiales
+        //val rutaFoto = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero"
         Log.d(Constantes.ETIQUETA_LOG, "Ruta completa fichero = $rutaFoto")
 
         // creamos el fichero
         val ficheroFoto = File(rutaFoto)
-        // aunque Kotlin no obliga a ello, es conveniente controlar
-        // con try Catch por si no pudiese crear la ruta
-        ficheroFoto.createNewFile()
-        // TODO CREAR RUTA PUBLICA
-        return ficheroFoto.toUri()
+        try{
+            ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
+            rutaUriFoto = ficheroFoto.toUri()
+            Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK")
+        } catch (e:Exception)
+        {
+            Log.e(Constantes.ETIQUETA_LOG, "Errro al crear el fichero destino de la foto", e)
+        }
+
+        //TODO CREAR RUTA PÚBLICA
+        return rutaUriFoto
     }
 
 
