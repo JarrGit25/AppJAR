@@ -160,6 +160,19 @@
             </intent-filter>
             -->
         </activity>
+        <!-- para usar el FileProvider -->
+        <provider
+            android:authorities="com.curso.AppJAR"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <!-- ahora la correspondencia de las rutas que es el xml rutas_provider.xml -->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rutas_provider"
+                />
+        </provider>
+
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,6 +27,12 @@ import java.util.Date
 // la actividad accede a la camará y sacar una foto
 // incluye permisos delicados en el Manifest
 
+// usaremos un FileProvider que es un componente que habra que declarar en el manifest y
+// hará de nexo de enlace entre las rutas
+// en al fichero de manifest  dentro de aplication es donde hay que meterlo
+//creamos un fichero xml en xml rutas_provider.xml
+
+
 class FotoActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityFotoBinding
@@ -38,6 +45,7 @@ class FotoActivity : AppCompatActivity() {
         if (resultado.resultCode== RESULT_OK)
         {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
+            binding.fotoTomada.setImageURI(this.uriFoto)
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
         }
@@ -117,23 +125,25 @@ class FotoActivity : AppCompatActivity() {
         var rutaUriFoto:Uri? = null
         val fechaActual = Date() // para guardar la fecha
         val momentoActual = SimpleDateFormat("yyyyMMdd_HHmmss").format(fechaActual)
-        val nombreFichero = "FOTO_ADF_$momentoActual"
+        val nombreFichero = "FOTO_ADF_$momentoActual.jpg"
         // creo la ruta donde se va a generar la foto
 
         // prueba 1 ruta privada de nuestra app solo visible desde Android Studio
-        val rutaFoto = "${filesDir.path}/$nombreFichero"
+        //val rutaFoto = "${filesDir.path}/$nombreFichero"
         ///data/user/0/com.curso.AppJAR/files/FOTO_ADF_20250922_123007
 
-        // prueba 2 con ruta privada/publica VISIBLE en el explorador de archivos nativo de Android
+        // prueba 2 con ruta publica / privada VISIBLE en el explorador de archivos nativo de Android
         //val rutaFoto = "${getExternalFilesDir(null)?.path}/$nombreFichero"
         ///storage/emulated/0/Android/data/com.curso.AppJAR/files/FOTO_ADF_20250922_124618
 
-        // prueba 3 con ruta publica total VISIBLE en el explorador de archivos nativo de Android
+        // Esta opcion actualmente no funcionaria
+        // prueba 3 con ruta publica raiz VISIBLE en el explorador de archivos nativo de Android
         // con este directamente no se puede porque tira una excepcion
         //val rutaFoto = "${Environment.getExternalStorageDirectory()?.path}/$nombreFichero"
 
         // prueba 4 con ruta de DESCARGAS se podria pero con permisos especiales
-        //val rutaFoto = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero"
+        //val rutaFoto = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)?.path}/$nombreFichero"
+        val rutaFoto = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero"
         Log.d(Constantes.ETIQUETA_LOG, "Ruta completa fichero = $rutaFoto")
 
         // creamos el fichero
@@ -142,9 +152,14 @@ class FotoActivity : AppCompatActivity() {
             ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
             rutaUriFoto = ficheroFoto.toUri()
             Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK")
+
+            // aqui es donde obtenemos la ruta publica de la ruta que pasamos
+            rutaUriFoto = FileProvider.getUriForFile(this, "com.curso.AppJAR",ficheroFoto)
+
+            Log.d(Constantes.ETIQUETA_LOG, "ruta logica o ficticia solo existente para el intercambio $rutaUriFoto")
         } catch (e:Exception)
         {
-            Log.e(Constantes.ETIQUETA_LOG, "Errro al crear el fichero destino de la foto", e)
+            Log.e(Constantes.ETIQUETA_LOG, "Error al crear el fichero destino de la foto", e)
         }
 
         //TODO CREAR RUTA PÚBLICA
