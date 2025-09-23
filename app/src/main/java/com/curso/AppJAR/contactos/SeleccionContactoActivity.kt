@@ -43,6 +43,15 @@ class SeleccionContactoActivity : AppCompatActivity() {
         // nos movemos al primer registro recorriendo las columnas de la Tabla
         cursor!!.moveToFirst()
         //accedo a las columnas nombre y número por el nombre de la columna
+        val columnaNombre = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+        val columnaNumero = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+        val nombre = cursor.getString(columnaNombre)
+        val numero = cursor.getString(columnaNumero)
+        Log.d(Constantes.ETIQUETA_LOG, "NOMBRE = $nombre y NÚMERO = $numero")
+        cursor.close()
+
+        /* tambien se puede hacer asi sin repetir cursor */
+        /*
         with(cursor) {
             //accedo a las columnas nombre y número por el nombre de la columna
             val colNombreW = getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
@@ -54,15 +63,14 @@ class SeleccionContactoActivity : AppCompatActivity() {
             // importante cerrar el cursor una vez hemos accedido
             close()
         }
+         */
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_seleccion_contacto)
-
         selectContact()
-
     }
 
     private fun selectContact() {
