@@ -215,4 +215,6 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         return true
     }
+
+
 }
