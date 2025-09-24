@@ -97,6 +97,9 @@ class BusquedaCancionesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         this.binding = ActivityBusquedaCancionesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        PlayerManager.initializePlayer(this)  // Inicializa el player
+
         // this.binding.cajaBusqueda.requestFocus()
         this.binding.cajaBusqueda.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener{
@@ -125,6 +128,12 @@ class BusquedaCancionesActivity : AppCompatActivity() {
 
 
 
+    }
+
+    // se llama antes de que la actividad se destruya para liberar recursos
+    override fun onDestroy() {
+        super.onDestroy()
+        PlayerManager.release()
     }
 
 

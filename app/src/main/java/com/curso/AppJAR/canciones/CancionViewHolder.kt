@@ -1,5 +1,6 @@
 package com.curso.AppJAR.canciones
 
+import android.widget.Toast
 import com.curso.AppJAR.canciones.Cancion
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +34,17 @@ class CancionViewHolder(val filaCancion: FilaCancionBinding): RecyclerView.ViewH
             .load(RUTA_FOTO.toUri())
             .into(this.filaCancion.foto)
 
-        // TODO en el id "escucha" cargar la reproduccion en el MEDIA PLAYER
+        // "escucha" cargar la reproduccion en el MEDIA PLAYER
+        // Listener para reproducir la canción preview
+        this.filaCancion.escucha.setOnClickListener {
+            val url = cancion.previewUrl
+            if (!url.isNullOrEmpty()) {
+                PlayerManager.playUrl(url)
+            } else {
+                Toast.makeText(itemView.context, "No hay preview disponible", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
 }

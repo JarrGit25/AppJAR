@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -38,6 +39,7 @@ class FotoActivity : AppCompatActivity() {
     lateinit var binding: ActivityFotoBinding
     // defino una variable global para la URI que necesitaremos varias veces
     lateinit var uriFoto: Uri
+    private val viewModel: FotoViewModel by viewModels()//obtenemos una instancia ya implementada: es delegación de propiedad, no de implementación
 
     val launcherIntentFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
     {
@@ -46,6 +48,7 @@ class FotoActivity : AppCompatActivity() {
         {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
             binding.fotoTomada.setImageURI(this.uriFoto)
+            viewModel.uriFoto = this.uriFoto
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
         }
@@ -56,6 +59,10 @@ class FotoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityFotoBinding.inflate((layoutInflater))
         setContentView(binding.root)
+
+        viewModel.uriFoto?.let {
+            binding.fotoTomada.setImageURI(it)
+        }
     }
 
     fun tomarFoto(view: View) {
