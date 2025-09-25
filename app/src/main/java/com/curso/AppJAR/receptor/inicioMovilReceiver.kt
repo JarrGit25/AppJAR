@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import com.curso.AppJAR.Constantes
 import com.curso.AppJAR.MainMenuActivity
+import com.curso.AppJAR.notificaciones.Notificaciones
 
 class inicioMovilReceiver : BroadcastReceiver() {
 
@@ -14,8 +15,15 @@ class inicioMovilReceiver : BroadcastReceiver() {
     // permite que nuestra app este informada del inicio del dispositivo
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
-        //TODO("inicioMovilReceiver.onReceive() is not implemented")
-        Log.d(Constantes.ETIQUETA_LOG,"En inicioMovilReceiver")
-        context.startActivity(Intent(context, MainMenuActivity::class.java))
+
+        Log.d(Constantes.ETIQUETA_LOG, "En InicioMovil receiver")
+        try {
+            // Al reiniciar el Telefono lanza la notificacion
+            Notificaciones.lanzarNotificacion(context)
+        }catch (e:Exception)
+        {
+            Log.e(Constantes.ETIQUETA_LOG, "errro al lanzar noti ", e)
+        }
+
     }
 }

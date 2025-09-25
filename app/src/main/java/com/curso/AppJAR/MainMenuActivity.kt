@@ -1,11 +1,17 @@
 package com.curso.AppJAR
 
+import android.annotation.TargetApi
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.curso.AppJAR.canciones.BusquedaCancionesActivity
@@ -56,6 +62,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         //startActivity(intent)
 
         mostrarAPPSinstaladas()
+        gestionarPermisosNotis ()
     }
 
 //    // creo Intent para enviar texto
@@ -229,6 +236,45 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             Log.d("AppInfo", "Package: ${app.packageName}, Label: ${packageManager.getApplicationLabel(app)}")
         }
 
+    }
+
+    fun gestionarPermisosNotis ()
+    {
+        val areNotificationsEnabled = NotificationManagerCompat.from(this).areNotificationsEnabled()
+
+        if (!areNotificationsEnabled) {
+            // Mostrar un diálogo al usuario explicando por qué necesita habilitar las notificaciones
+            mostrarDialogoActivarNotis()
+        }
+        else {
+            Log.d(Constantes.ETIQUETA_LOG, "Notis desactivadas")
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun mostrarDialogoActivarNotis() {
+        var dialogo = AlertDialog.Builder(this)
+            .setTitle("AVISO NOTIFICACIONES") //i18n
+            //.setTitle("AVISO")
+            .setMessage("Para que la app funcione, debe ir a ajustes y activar las notificaciones")
+            //.setMessage("¿Desea Salir?")
+            .setIcon(R.drawable.outline_notifications_active_24)
+            .setPositiveButton("IR"){ dialogo, opcion ->
+                Log.d(Constantes.ETIQUETA_LOG, "Opción positiva salir =  $opcion")
+                val intent = Intent().apply {
+                    action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                }
+                startActivity(intent)
+
+            }
+            .setNegativeButton("CANCELAR"){ dialogo: DialogInterface, opcion: Int ->
+                Log.d(Constantes.ETIQUETA_LOG, "Opción negativa  =  $opcion")
+                dialogo.dismiss()
+            }
+
+
+        dialogo.show()//lo muestro
     }
 
 }
