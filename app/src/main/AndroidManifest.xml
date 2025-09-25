@@ -5,11 +5,27 @@
     <!-- declaro que mi app necesita conectarse a internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- PARA ACCEDER AL ESTADO DE LA RED -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- PERMISO PARA PODER LEER LOS CONTACTOS -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- PERMISOS PARA ACCEDRR A LA CAMARA DE FOTOS -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- required = true si el dispositivo tiene que tener camara obligatoriamente -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
+    <queries>
+        <!-- Declarar que quieres hacer consultas a aplicaciones de navegador para que sean visibles -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data
+                android:scheme="https"
+                />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- permite que nuestra app este informada del inicio del dispositivo -->
 
     <application

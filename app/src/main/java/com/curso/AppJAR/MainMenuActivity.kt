@@ -1,6 +1,7 @@
 package com.curso.AppJAR
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -53,6 +54,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         // LANZA LA ACTIVIDAD IMC navega de una pantalla a otra
         //val intent = Intent(this,ImcActivity::class.java)
         //startActivity(intent)
+
+        mostrarAPPSinstaladas()
     }
 
 //    // creo Intent para enviar texto
@@ -216,5 +219,16 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
+    fun mostrarAPPSinstaladas ()
+    {
+        val packageManager = packageManager
+        val apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+
+        Log.d("AppInfo","Total APPS ${apps.size}")
+        for (app in apps) {
+            Log.d("AppInfo", "Package: ${app.packageName}, Label: ${packageManager.getApplicationLabel(app)}")
+        }
+
+    }
 
 }
